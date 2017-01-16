@@ -1,0 +1,86 @@
+<!--evaluation.wxml-->
+<view>
+  <view class="evNav">
+    <view class="{{goHome?'evCurrent':'evDefault'}}" bindtap="goHome">住宅</view>
+    <view class="{{goShop?'evCurrent':'evDefault'}}" bindtap="goShop">商铺</view>
+  </view>
+  <view class="{{goHome?'evShow':'evHidden'}}">
+    <loading hidden="{{loadingHidden}}">加载中...</loading>
+    <form bindsubmit="formBindsubmit" bindreset="formReset">
+        <view id="default_wrap" class="default_wrap">
+            <view class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <view class="weui-cell__bd">
+                        <p>省份</p>
+                     </view>
+                    <view class="weui-cell__ft">
+                        <picker bindchange="provincePickerChange" value="{{provinceIndex}}" range="{{province}}" range-key="province" data-code="{{province[provinceIndex].code}}">
+                            <text class="select-item">{{province[provinceIndex].province}}</text>
+                        </picker>
+                        <span class="com_form_ldddown"></span>
+                    </view>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>城市</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    <picker bindchange="cityPickerChange" value="{{cityIndex}}" range="{{city}}" range-key="city" data-cityName="{{city[cityIndex].city}}">
+                        <text class="select-item" >{{city[cityIndex].city}}</text>
+                    </picker>
+                        <span class="com_form_ldddown"></span>
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>房产</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <input bindinput="bindKeyInput" data-cityName="{{city[cityIndex].city}}" placeholder="请输入所在小区" value="{{inputValue}}" />
+                        <view wx:for="{{banCode}}" wx:for-item="item" wx:key="banCodeKey" hidden="{{banCodeHidden}}">
+                            <view data-unitCode="{{item.code}}" data-cityName="{{city[cityIndex].city}}" data-unitName="{{item.name}}" bindtap="getUnitCode">{{item.name}}</view>
+                        </view>
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>楼栋</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <picker bindchange="banPickerChange" value="{{banIndex}}"
+                        range="{{ban}}" range-key="sBanName" data-sBanCode="{{ban[banIndex].sBanCode}}" data-sBanName="{{ban[banIndex].sBanName}}" data-sUnitCode="{{ban[banIndex].sUnitCode}}">
+                            <text class="select-item">{{ban[banIndex].sBanName}}</text>
+                        </picker>
+                        <span class="com_form_ldddown"></span>
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>房号</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                         <picker bindchange="roomPickerChange" value="{{houseIndex}}" range="{{house}}" range-key="sRoomNo" data-sRoomNo="{{house[houseIndex].sRoomNo}}" data-sRoomID="{{house[houseIndex].sRoomID}}" >
+                            <text class="select-item">{{house[houseIndex].sRoomNo}}</text>
+                        </picker>
+                        <span class="com_form_ldddown"></span>
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p>面积</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <view class="txtRoomareaView"><input class="mui-input-clear txtRoomarea" name="farea" placeholder="请输入建筑面积" data-input-clear="3" value="{{fArea}}" /></view>
+                        <span class="mui-icon mui-icon-clear mui-hidden"></span>
+                    </div>
+                </a>
+            </view>
+            <p class="evTip">提示：以上选项均为必填项目，务必核对清楚保证无误</p>
+            <view class="evSubmitBox">
+                <button id="submit_btn" class="evSubmitBtn" formType="submit">提交</button>
+            </view>
+        </view>
+    </form>
+  </view>
+  <view class="{{goShop?'evShow':'evHidden'}}">for 商铺</view>
+</view>
