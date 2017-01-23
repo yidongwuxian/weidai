@@ -6,8 +6,7 @@
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "老舍房贷",
     "navigationBarTextStyle":"black"
-  },
-  "debug":true
+  }
 }

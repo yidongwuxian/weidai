@@ -25,7 +25,7 @@ function json2Form(json) {
 }
 
 function request(url,dataJSON,successFun){
-    dataJSON = dataJSON||{};
+    //dataJSON = dataJSON||{};
     wx.request({
         url: 'https://laoshe.coamc.tech/'+url,
         data: json2Form(dataJSON),
@@ -34,10 +34,12 @@ function request(url,dataJSON,successFun){
         },
         method: 'POST',
         success: function(res){
-            successFun(res.data);
+            if(res.statusCode == '200'){
+                successFun(res.data)
+            }
         },
-        fail: function() {
-            // fail
+        fail: function(err) {
+            console.log(err)
         },
         complete: function() {
             // complete
