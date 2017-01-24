@@ -25,7 +25,7 @@ function json2Form(json) {
 }
 
 function request(url,dataJSON,successFun){
-    //dataJSON = dataJSON||{};
+    dataJSON = dataJSON||{};
     wx.request({
         url: 'https://laoshe.coamc.tech/'+url,
         data: json2Form(dataJSON),
@@ -47,8 +47,23 @@ function request(url,dataJSON,successFun){
     });
 }
 
+function showLoading(ele){
+  ele.setData({
+    loadingHidden: false
+  })
+}
+
+function hiddenLoading(ele){
+  setTimeout(function(){
+    ele.setData({
+        loadingHidden: true
+    })
+  }, 300)
+}
 module.exports = {
-  formatTime:  formatTime,
-  json2Form:   json2Form,
-  request:     request
+  formatTime:     formatTime,
+  json2Form:      json2Form,
+  request:        request,
+  showLoading:    showLoading,
+  hiddenLoading:  hiddenLoading
 }

@@ -7,7 +7,6 @@
 .evTip{ display: block; font-size: 12px; color: #ff8800; margin: 10rpx; text-align: center;}
 .evSubmitBox{display:block; margin-top:40rpx; padding:1rem 25px;}
 .evSubmitBtn{display:block; width:100%; line-height: 1.42; padding:10px 0; font-size: 18px; background-color: #0093fd; border-radius: 3px; color:#fff; text-align: center; }
-.roomIDView,.extTotalfloorView,.extLocalfloorView,.txtRoomareaView{ display:inline-block; }
 .roomIDView::after{display:inline-block; content:'(室)'}
 .extTotalfloorView::after{display:inline-block; content:'(层)'}
 .extLocalfloorView::after{display:inline-block; content:'(层)'}
@@ -16,3 +15,5 @@
 .banResult{ height:200px; background-color: #f8f8f8; border-top: 1px solid #e7e7e7; }
 .rFloat{ display: inline-block; float:right; }
 .txtInline{ display: inline-block; vertical-align: top;}
+.banResultView{ height: 30px; line-height: 30px; display: block; color: #999;  padding: 0 30rpx; }
+.fr{ float:right; }

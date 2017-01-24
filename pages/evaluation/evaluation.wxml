@@ -45,7 +45,7 @@
                     </div>
                 </a>
                 <view class="banResult" hidden="{{banCodeHidden}}">
-                    <view wx:for="{{banCode}}" wx:for-item="item" wx:key="banCodeKey" data-unitCode="{{item.code}}" data-cityName="{{city[cityIndex].city}}" data-unitName="{{item.name}}" bindtap="getUnitCode">{{item.name}}</view>
+                    <view class="banResultView" wx:for="{{banCode}}" wx:for-item="item" wx:key="banCodeKey" data-unitCode="{{item.code}}" data-cityName="{{city[cityIndex].city}}" data-unitName="{{item.name}}" bindtap="getUnitCode">{{item.name}}</view>
                 </view>
                 <a class="weui-cell weui-cell_access" href="javascript:;">
                     <div class="weui-cell__bd">
@@ -74,16 +74,16 @@
                     <div class="weui-cell__bd">
                         <p>楼栋单元</p>
                     </div>
-                    <div class="weui-cell__ft">
-                        <input class="extUnit rFloat" name="extUnit" placeholder="请输入所在楼栋单元" value="{{extUnit}}" />
+                    <div class="weui-cell__ft fr">
+                        <input class="extUnit rFloat" type="number" name="extUnit" placeholder="请输入所在楼栋单元" value="{{extUnit}}" />
                     </div>
                 </a>
                 <a class="weui-cell weui-cell_access {{extHidden?'evShow':'evHidden'}}" href="javascript:;">
                     <div class="weui-cell__bd">
                         <p>房间号</p>
                     </div>
-                    <div class="weui-cell__ft">
-                        <view class="roomIDView"><input class="roomNo txtInline" name="roomNo" placeholder="请输入房间号" value="{{roomNo}}" /></view>
+                    <div class="weui-cell__ft fr">
+                        <view class="roomIDView"><input class="roomNo txtInline" type="number" name="roomNo" placeholder="请输入房间号" value="{{roomNo}}" /></view>
                     </div>
                 </a>
                 <a class="weui-cell weui-cell_access {{extHidden?'evShow':'evHidden'}}" href="javascript:;">
@@ -101,16 +101,16 @@
                     <div class="weui-cell__bd">
                         <p>总楼层</p>
                     </div>
-                    <div class="weui-cell__ft">
-                       <view class="extTotalfloorView"><input class="extTotalfloor txtInline" name="extTotalfloor" placeholder="请输入楼栋总楼层" value="{{extTotalfloor}}" /></view>
+                    <div class="weui-cell__ft fr">
+                       <view class="extTotalfloorView"><input class="extTotalfloor txtInline" type="number" name="extTotalfloor" placeholder="请输入楼栋总楼层" value="{{extTotalfloor}}" /></view>
                     </div>
                 </a>
                 <a class="weui-cell weui-cell_access {{extHidden?'evShow':'evHidden'}}" href="javascript:;">
                     <div class="weui-cell__bd">
                         <p>所在楼层</p>
                     </div>
-                    <div class="weui-cell__ft">
-                        <view class="extLocalfloorView"><input class="extLocalfloor txtInline" name="extLocalfloor" placeholder="请输入所在楼层" value="{{extLocalfloor}}" /></view>
+                    <div class="weui-cell__ft fr">
+                        <view class="extLocalfloorView"><input class="extLocalfloor txtInline" type="number" name="extLocalfloor" placeholder="请输入所在楼层" value="{{extLocalfloor}}" /></view>
                     </div>
                 </a>
                 <a class="weui-cell weui-cell_access" href="javascript:;">

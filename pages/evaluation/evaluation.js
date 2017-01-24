@@ -9,7 +9,7 @@ Page({
      banItem: [
       {name: '小区', value: '小区', checked: 'true'},
       {name: '地址', value: '地址'}
-    ] 
+     ]
   },
   goHome:function(e){
       this.setData({
@@ -28,12 +28,7 @@ Page({
     const param = {}
         //初始获取省份数据
         Util.request('ldd/adocdome/getprovince', param, function(data){
-            //console.log('进来'+JSON.stringify(data.extension))
-            setTimeout(function(){
-              that.setData({
-                  loadingHidden: true
-              })
-            }, 300)
+            Util.hiddenLoading(that)
             that.setData({
                 province: data.extension
             })
@@ -63,27 +58,23 @@ Page({
             ban: [{ sBanCode: "-1", sBanName: "请选择所在楼栋", sUnitCode:"-1" }],         //楼栋默认显示文案
             house : [{sRoomID: "-1", sRoomNo: "请选择所属房间号" }]                       //房号默认显示文案
         })
+       
   },
     //选择省份
     provincePickerChange: function(e){
         const that = this
         that.setData({
             provinceIndex : e.detail.value,
-            loadingHidden: false,
             city: null,
             inputValue: ''
         })
-
+        Util.showLoading(that)
         var   param = {}
               param.province      =  this.data.province[e.detail.value].code
               param.provinceName  =  this.data.province[e.detail.value].province
 
         Util.request('ldd/adocdome/getCity', param, function(data){
-            setTimeout(function(){
-              that.setData({
-                  loadingHidden: true
-              })
-            }, 300)
+            Util.hiddenLoading(that)
             that.setData({
                 city: data.extension
             })
@@ -99,6 +90,17 @@ Page({
     //搜索小区关键词
     bindKeyInput: function(e) {
         const that = this
+        that.setData({
+             ban: null,
+             house : null,
+             fArea: '',
+             extUnit: '',
+             roomNo : '',
+             forwardIndex: 0,
+             extTotalfloor: '',
+             extLocalfloor: '',
+             extHidden:   false
+        })
         var   param = {}
               param.city  =  e.target.dataset.cityname
               param.name  =  e.detail.value
@@ -108,17 +110,13 @@ Page({
 
          if(param.name == ''){
             that.setData({
-                inputValue: '',
-                ban: null,
-                house : null,
-                fArea: ''
+                inputValue:  '',
+                unitHidden:  false,
+                houseHidden: true
             })
          }else{
             that.setData({
-                inputValue: e.detail.value,
-                ban: null,
-                house : null,
-                fArea: ''
+                inputValue: e.detail.value
             })
          }
     },
@@ -165,20 +163,19 @@ Page({
         const that = this
         that.setData({
             inputValue: e.target.dataset.unitname,
-            loadingHidden: false,
             banCodeHidden: true
         })
+        if(app.unCode == "地址"){
+            banIndex: 0
+        }
+        Util.showLoading(that)
         var   param = {}
               param.city         =  app.CityName
               param.newCode      =  e.target.dataset.unitcode
               param.projectName  =  e.target.dataset.unitname
            
         Util.request('ldd/adocdome/getBanUnitList',param,function(data){
-            setTimeout(function(){
-              that.setData({
-                  loadingHidden: true
-              })
-            }, 300)
+            Util.hiddenLoading(that)
             if(data.result == '0'){
                 wx.showModal({
                     title: '提示',
@@ -203,10 +200,13 @@ Page({
         const that = this;
         that.setData({
             banIndex : e.detail.value,
-            loadingHidden: false,
-            fArea: ''
+            fArea: '',
+            roomNo : '',
+            forwardIndex: 0,
+            extTotalfloor: '',
+            extLocalfloor: ''
         })
-
+        Util.showLoading(that)
         const banCodes  =  this.data.ban[e.detail.value].sBanCode+'_'+this.data.ban[e.detail.value].sUnitCode
         var   param = {};
               param.city     =  app.CityName
@@ -220,7 +220,8 @@ Page({
                 houseHidden:   false,  
                 unitHidden:    true,          
                 extHidden:     true,
-                loadingHidden: true
+                loadingHidden: true,
+                extUnit:       ''
             })
             app.SroomId = "999999"                            //楼栋选择“其他”时,“房号”为999999
         }
@@ -228,27 +229,18 @@ Page({
             that.setData({
                 houseHidden: true, 
                 unitHidden:  false,                
-                extHidden:   false
+                extHidden:   false,
+                houseIndex : 0
             })
-            if(app.Name != ''){
-                Util.request('ldd/adocdome/getRoomList', param, function(data){
-                    setTimeout(function(){
-                      that.setData({
-                          loadingHidden: true
-                      })
-                    }, 300)
-                    const houseData = data.extension
-                    houseData.splice(0,0,{sRoomID: "-1", sRoomNo: "请选择所属房间号" })
-                    houseData.push({sRoomID: "999999", sRoomNo: "其他" })
-                    that.setData({
-                        house : houseData
-                    })
+            Util.request('ldd/adocdome/getRoomList', param, function(data){
+                Util.hiddenLoading(that)
+                const houseData = data.extension
+                houseData.splice(0,0,{sRoomID: "-1", sRoomNo: "请选择所属房间号" })
+                houseData.push({sRoomID: "999999", sRoomNo: "其他" })
+                that.setData({
+                    house : houseData
                 })
-            }else{
-                 that.setData({
-                    house : null
-                 })
-            }
+            })
         }
         app.BanCode   =  this.data.ban[e.detail.value].sBanCode
         app.SunitCode =  param.unitCode
@@ -259,17 +251,15 @@ Page({
         const that = this;
         if(app.abanName != ''){
             that.setData({
-                houseIndex : e.detail.value,
-                loadingHidden: false
+                houseIndex : e.detail.value
             })
         }else{
             that.setData({
-                houseIndex : 0,
-                loadingHidden: false
+                houseIndex : 0
             })
         }
         
-
+      Util.showLoading(that)
       var param = {};
           param.city     =  app.CityName
           param.newCode  =  app.UnitCode
@@ -287,11 +277,7 @@ Page({
                 extHidden:   false
             })
             Util.request('ldd/adocdome/getRoomInfoById', param, function(data){
-                setTimeout(function(){
-                  that.setData({
-                      loadingHidden: true
-                  })
-                }, 300)
+                Util.hiddenLoading(that)
                 that.setData({
                     fArea : data.extension.fArea
                 });
@@ -345,6 +331,14 @@ Page({
                     confirmColor: '#0093fd'
                 })
             }
+            else if( e.detail.value.extTotalfloor < e.detail.value.extLocalfloor ){
+                 wx.showModal({
+                    title: '提示',
+                    content: '请输入正确的所在楼层！',
+                    showCancel: false,
+                    confirmColor: '#0093fd'
+                })
+            }
             else if( e.detail.value.farea.length == 0 ){
                  wx.showModal({
                     title: '提示',
@@ -367,7 +361,9 @@ Page({
                 param.totalFloor = e.detail.value.extTotalfloor
                 param.floor      = e.detail.value.extLocalfloor
 
+                Util.showLoading(that)
                 Util.request('ldd/adocdome/evaluation', param, function(data){
+                    Util.hiddenLoading(that)
                     if( data.result=='0') {
                         wx.showModal({
                             title: '提示',
@@ -404,6 +400,14 @@ Page({
                     confirmColor: '#0093fd'
                 })
             }
+            else if( e.detail.value.extTotalfloor < e.detail.value.extLocalfloor ){
+                 wx.showModal({
+                    title: '提示',
+                    content: '请输入正确的所在楼层！',
+                    showCancel: false,
+                    confirmColor: '#0093fd'
+                })
+            }
             else if( e.detail.value.farea.length == 0 ){
                  wx.showModal({
                     title: '提示',
@@ -425,7 +429,9 @@ Page({
                 param.totalFloor = e.detail.value.extTotalfloor
                 param.floor      = e.detail.value.extLocalfloor
 
+                Util.showLoading(that)
                 Util.request('ldd/adocdome/evaluation', param, function(data){
+                    Util.hiddenLoading(that)
                     if( data.result=='0') {
                         wx.showModal({
                             title: '提示',
@@ -454,7 +460,9 @@ Page({
                 param.roomId   = app.SroomId 
                 param.area     = e.detail.value.farea
 
+            Util.showLoading(that)
             Util.request('ldd/adocdome/evaluation', param, function(data){
+                Util.hiddenLoading(that)
                 if( data.result=='0') {
                     wx.showModal({
                         title: '提示',

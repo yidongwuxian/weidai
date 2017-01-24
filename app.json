@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/evaluation/evaluation",
+    "pages/updateRefresh/updateRefresh",
     "pages/logs/logs"
   ],
   "window":{
