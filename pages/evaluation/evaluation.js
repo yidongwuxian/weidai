@@ -140,21 +140,45 @@ Page({
             if(app.unCode == "地址"){
                 Util.request('ldd/adocdome/getProjectListByKeyword', {city: app.CityName, name: app.Name }, function(data){
                     that.setData({
-                        banCode: data.extension
+                        banCode: data.extension,
+                        banIndex: 0,
+                        houseIndex: 0,
+                        fArea: '',
+                        roomNo : '',
+                        forwardIndex: 0,
+                        extTotalfloor: '',
+                        extLocalfloor: '',
+                        extHidden:   false
                     })
                 })
             }
             else{
                 Util.request('ldd/adocdome/getProjectList', {city: app.CityName, name: app.Name }, function(data){
                     that.setData({
-                        banCode: data.extension
+                        banCode: data.extension,
+                        banIndex: 0,
+                        houseIndex: 0,
+                        fArea: '',
+                        roomNo : '',
+                        forwardIndex: 0,
+                        extTotalfloor: '',
+                        extLocalfloor: '',
+                        extHidden:   false
                     })
                 })
             }
         }else{
             that.setData({
                 banCodeHidden: true,
-                banCode: null
+                banCode: null,
+                banIndex: 0,
+                houseIndex: 0,
+                fArea: '',
+                roomNo : '',
+                forwardIndex: 0,
+                extTotalfloor: '',
+                extLocalfloor: '',
+                extHidden:   false
             })
         } 
     },
